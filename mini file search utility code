@@ -1,0 +1,51 @@
+#!/bin/bash
+# Mini File Search Utility - Menu Driven
+
+while true
+do
+    clear
+    echo "=============================="
+    echo "   MINI FILE SEARCH UTILITY   "
+    echo "=============================="
+    echo "1. Search file by name"
+    echo "2. Search file by extension"
+    echo "3. Search file by content"
+    echo "4. Search files modified in last N days"
+    echo "5. Exit"
+    echo "------------------------------"
+    read -p "Enter your choice [1-5]: " choice
+
+    case $choice in
+        1)
+            read -p "Enter filename to search: " fname
+            echo "Searching for files named '$fname'..."
+            find / -type f -name "$fname" 2>/dev/null
+            ;;
+        2)
+            read -p "Enter file extension (e.g. txt, sh, cpp): " ext
+            echo "Searching for *.$ext files..."
+            find / -type f -name "*.$ext" 2>/dev/null
+            ;;
+        3)
+            read -p "Enter text to search inside files: " text
+            read -p "Enter directory path to search in: " path
+            echo "Searching for text '$text' in files under $path..."
+            grep -rl "$text" "$path" 2>/dev/null
+            ;;
+        4)
+            read -p "Enter number of days: " days
+            echo "Searching for files modified in last $days days..."
+            find / -type f -mtime -$days 2>/dev/null
+            ;;
+        5)
+            echo "Exiting... Thank you!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please try again."
+            ;;
+    esac
+
+    echo ""
+    read -p "Press Enter to continue..."
+done
